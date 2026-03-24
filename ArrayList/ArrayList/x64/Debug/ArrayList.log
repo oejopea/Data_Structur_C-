@@ -1,5 +1,0 @@
-﻿  Array_List.cpp
-D:\Course_C++\Data_Strcutior_C++\ArrayList\ArrayList\ArrayList.cpp(79,12): warning C4553: '==': result of expression not used; did you intend '='?
-  (compiling source file 'Array_List.cpp')
-  
-  ArrayList.vcxproj -> D:\Course_C++\Data_Strcutior_C++\ArrayList\x64\Debug\ArrayList.exe
