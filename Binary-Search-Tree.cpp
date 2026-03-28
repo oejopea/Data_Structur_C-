@@ -23,6 +23,7 @@ class Bst
 {
 	Node* root;
 public:
+	int sizeTree = 0;
 	Bst() {
 		root = nullptr;
 	}
@@ -52,6 +53,7 @@ public:
 			cout << "Value is exist";
 			return;
 		}
+		sizeTree++;
 
 		Node* n = new Node(value, nullptr, nullptr);
 		if (root == nullptr)
@@ -121,7 +123,7 @@ public:
 		}
 		return root->Value;
 	}
-	
+
 
 	//left root right
 	void inorder(Node* r)
@@ -176,7 +178,7 @@ public:
 
 	int countNodes(Node* r)
 	{
-		if ( r == nullptr)
+		if (r == nullptr)
 		{
 			return 0;
 		}
@@ -184,6 +186,130 @@ public:
 	}
 	void printCountNodes() {
 		cout << countNodes(root) << endl;
+	}
+
+	void remove(int val)
+	{
+		if (search(val) == false)
+		{
+			return;
+		}
+		Node* p = root;
+		Node* prev = root;
+		while (p->Value != val)
+		{
+			prev = p;
+			if (val > p->Value)
+			{
+				p = p->rigth;
+			}
+			else
+			{
+				p = p->left;
+			}
+		}
+
+		sizeTree--;
+		if (sizeTree == 0)
+		{
+			delete root;
+			root == nullptr;
+		}
+
+		//leaf Node
+		if (p->rigth == nullptr && p->left == nullptr)
+		{
+			if (val > prev->Value)
+			{
+				prev->rigth == nullptr;
+			}
+			else
+			{
+				prev->left == nullptr;
+			}
+			delete p;
+		}
+		//left 
+
+		else if (p->rigth == nullptr)
+		{
+			if (p == root)
+			{
+				root = p->left;
+				delete p;
+				return;
+			}
+			else if (p->Value > prev->Value)
+			{
+				prev->rigth = p->left;
+			} 
+			else
+			{
+				prev->left = p->left;
+			}
+
+			delete p;
+		}
+
+		//rigth
+		else if (p->left == nullptr)
+		{
+			if (p == root)
+			{
+				root = p->rigth;
+				delete p;
+				return;
+			}
+			else if(p->Value < prev->Value )
+			{
+				prev->left = p->rigth;
+			}
+			else
+			{
+				prev->rigth = p->rigth;
+			}
+			delete p;
+		}
+
+		//rigth != null and left != null
+		else if (p->left != nullptr && p->rigth != nullptr)
+		{
+			Node* p2 = p;
+			Node* prev2 = p;
+			p2 = p2->rigth;
+			//the new root lef is null
+			if (p2->left == nullptr)
+			{
+				p->Value = p2->Value;
+				p->rigth = p2->rigth;
+				delet p2;
+			}
+			else
+			{
+				while (p2->left != nullptr)
+				{
+					prev2 = p2;
+					p2 = p2->left;
+
+				}
+				p->Value = p2->Value;
+				prev2->left = p2->rigth;
+				delete  p2;
+
+
+			}
+		}
+
+		
+
+	}
+
+	void clear()
+	{
+		while (!isEmpty())
+		{
+			remove(root->Value);
+		}
 	}
 
 };
@@ -218,5 +344,7 @@ int main()
 	cout << "This is Count Nodes " << endl;
 	bst.printCountNodes();
 
+	//The Size if the tree
+	cout << bst.sizeTree << endl;
 
 }
